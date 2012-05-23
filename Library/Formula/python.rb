@@ -9,8 +9,8 @@ def as_framework?
 end
 
 class Distribute < Formula
-  url 'http://pypi.python.org/packages/source/d/distribute/distribute-0.6.26.tar.gz'
-  md5 '841f4262a70107f85260362f5def8206'
+  url 'http://pypi.python.org/packages/source/d/distribute/distribute-0.6.27.tar.gz'
+  md5 'ecd75ea629fee6d59d26f88c39b2d291'
 end
 
 class Python < Formula
@@ -174,6 +174,6 @@ class Python < Formula
 
   def test
     # See: https://github.com/mxcl/homebrew/pull/10487
-    system "#{bin}/python -c 'from decimal import Decimal; print Decimal(4) / Decimal(2)'"
+    `#{bin}/python -c 'from decimal import Decimal; print Decimal(4) / Decimal(2)'`.chomp == '2'
   end
 end
