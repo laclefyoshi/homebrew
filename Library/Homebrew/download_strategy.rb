@@ -458,19 +458,23 @@ class MercurialDownloadStrategy < AbstractDownloadStrategy
 
   def cached_location; @clone; end
 
+  def hgpath
+    @path ||= (which "hg" || "#{HOMEBREW_PREFIX}/bin/hg")
+  end
+
   def fetch
-    raise "You must install Mercurial: brew install mercurial" unless which "hg"
+    raise "You must: brew install hg" unless File.file?(hgpath)
 
     ohai "Cloning #{@url}"
 
     unless @clone.exist?
       url=@url.sub(%r[^hg://], '')
-      safe_system 'hg', 'clone', url, @clone
+      safe_system hgpath, 'clone', url, @clone
     else
       puts "Updating #{@clone}"
       Dir.chdir(@clone) do
-        safe_system 'hg', 'pull'
-        safe_system 'hg', 'update'
+        safe_system hgpath, 'pull'
+        safe_system hgpath, 'update'
       end
     end
   end
@@ -480,9 +484,9 @@ class MercurialDownloadStrategy < AbstractDownloadStrategy
     Dir.chdir @clone do
       if @spec and @ref
         ohai "Checking out #{@spec} #{@ref}"
-        safe_system 'hg', 'archive', '--subrepos', '-y', '-r', @ref, '-t', 'files', dst
+        safe_system hgpath, 'archive', '--subrepos', '-y', '-r', @ref, '-t', 'files', dst
       else
-        safe_system 'hg', 'archive', '--subrepos', '-y', '-t', 'files', dst
+        safe_system hgpath, 'archive', '--subrepos', '-y', '-t', 'files', dst
       end
     end
   end
