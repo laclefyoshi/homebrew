@@ -1,11 +1,11 @@
 require 'formula'
 
-class BerkeleyDb < Formula
+class BerkeleyDb4 < Formula
   homepage 'http://www.oracle.com/technology/products/berkeley-db/index.html'
-  url 'http://download.oracle.com/berkeley-db/db-5.3.21.tar.gz'
-  sha1 '32e43c4898c8996750c958a90c174bd116fcba83'
+  url 'http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz'
+  sha1 'ab36c170dda5b2ceaad3915ced96e41c6b7e493c'
 
-  option 'with-java', 'Compile with Java support.'
+  keg_only "BDB 4.8.30 is provided for software that doesn't compile against newer versions."
 
   def install
     # BerkeleyDB dislikes parallel builds
@@ -15,7 +15,6 @@ class BerkeleyDb < Formula
             "--prefix=#{prefix}",
             "--mandir=#{man}",
             "--enable-cxx"]
-    args << "--enable-java" if build.include? "with-java"
 
     # BerkeleyDB requires you to build everything from the build_unix subdirectory
     cd 'build_unix' do
