@@ -1,5 +1,5 @@
 #!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby -W0
-# -*- coding: utf-8 -*-
+# encoding: UTF-8
 
 std_trap = trap("INT") { exit! 130 } # no backtrace thanks
 
@@ -91,7 +91,7 @@ begin
       ENV["HOMEBREW_#{e}"] = Object.const_get "HOMEBREW_#{e}"
     end
     exec "brew-#{cmd}", *ARGV
-  elsif require? `/usr/bin/which brew-#{cmd}.rb`
+  elsif require? which("brew-#{cmd}.rb").to_s
     exit 0
   else
     onoe "Unknown command: #{cmd}"
